@@ -6,6 +6,10 @@ import Login from "./routes/login";
 import CreateAccount from "./routes/create-account";
 import Home from "./routes/home";
 import ProtectedRoute from "./components/protected-route";
+import { useEffect, useState } from "react";
+import { auth } from "./firebase";
+import LoadingScreen from "./components/loading-screen";
+import Profile from "./components/profile";
 
 const Wrapper = styled.div`
   height: 100vh;
@@ -26,6 +30,10 @@ function App() {
         {
           path: "",
           element: <Home />,
+        },
+        {
+          path: "profile",
+          element: <Profile />,
         },
       ],
     },
@@ -52,10 +60,18 @@ function App() {
       display:none;
     }
   `;
+  const [isLoading, setIsLoading] = useState(true);
+  const init = async () => {
+    await auth.authStateReady();
+    setIsLoading(false);
+  };
+  useEffect(() => {
+    init();
+  }, []);
   return (
     <Wrapper>
       <GlobalStyles />
-      <RouterProvider router={router} />
+      {isLoading ? <LoadingScreen /> : <RouterProvider router={router} />}
     </Wrapper>
   );
 }
