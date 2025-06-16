@@ -14,6 +14,7 @@ import { useForm } from "react-hook-form";
 import type { TweetForm } from "./post-tweet-form";
 
 const Wrapper = styled.div`
+  width: 100%;
   display: grid;
   grid-template-columns: 3fr 1fr;
   padding: 20px;
